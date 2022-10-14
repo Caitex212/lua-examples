@@ -1,4 +1,4 @@
-L-License
+L-License (Learner-License)
 
 Copyright (c) 2022 Caitex#6714
 
