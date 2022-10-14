@@ -6,7 +6,7 @@ local commandPrefix = "/"
 local raceallTime
 local admin = {"Caitex.212"}
 
-
+-- Register the Events in the Server...
 function onInit()
     print("----------Loading Racing Script Done!----------")
     MP.RegisterEvent("onChatMessage","onChatMessageHandler")
@@ -15,8 +15,10 @@ function onInit()
 	MP.CreateEventTimer("raceallTimer",1000)
 end
 
+--Receiving the messages and sending them to the onCommand function.
 function onChatMessageHandler(player_id, player_name, message)
 	print("onChatMessage: " .. player_id .. " | " .. player_name .. " | Message: " .. message)
+	--Looking for the commandPrefix.
 	message = message:sub(2)
 	if message:sub(1,1) == commandPrefix then
 		command = string.sub(message,2)
@@ -29,12 +31,13 @@ function onCommand(player_id, data)
 	
 	local command = split(data," ")[1]
 	local args
+	--Splitting the message into different "args".
 	local s = data:find(' ')
 	if s ~= nil then
 		args = data:sub(s+1)
 	end
 	args = args or ""
-	
+	--Triggering the local function.
 	if command == "race" then
 		raceCommand(args, player_id)
 	else
@@ -46,6 +49,7 @@ function raceCommand(args, player_id)
 	print("|"..args.."|", player_id)
 
 	if args == "" then
+		--Checking if the player is an admin.
 		local isAdmin = false
 		for key, value in pairs(admin) do
 			if MP.GetPlayerName(player_id) == value then
@@ -54,6 +58,7 @@ function raceCommand(args, player_id)
 			end
 		end
 		if isAdmin then
+			--Set the time so the countdown can start.
 			raceallTime = 11
 		else
 			MP.SendChatMessage(player_id, "You cannot use that command!")
@@ -61,7 +66,7 @@ function raceCommand(args, player_id)
 	end
 end
 
-
+--This function is triggered every second, and sends the countdown.
 function raceallTimer()
 	if raceallTime ~= nil then
 
